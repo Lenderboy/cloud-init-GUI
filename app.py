@@ -86,23 +86,23 @@ class App(tk.Tk):
             pass
 
         # ---------- Notebook ----------
-        notebook = ttk.Notebook(self)
-        notebook.pack(fill="both", expand=True, padx=8, pady=8)
+        self._notebook = ttk.Notebook(self)
+        self._notebook.pack(fill="both", expand=True, padx=8, pady=8)
 
         # Build tabs
-        self._tab_ova = OvaTab(notebook)
-        self._tab_instance = InstanceTab(notebook)
-        self._tab_user = UserTab(notebook)
-        self._tab_network = NetworkTab(notebook)
-        self._tab_packages = PackagesTab(notebook)
-        self._tab_preview = PreviewTab(notebook)
+        self._tab_ova = OvaTab(self._notebook)
+        self._tab_instance = InstanceTab(self._notebook)
+        self._tab_user = UserTab(self._notebook)
+        self._tab_network = NetworkTab(self._notebook)
+        self._tab_packages = PackagesTab(self._notebook)
+        self._tab_preview = PreviewTab(self._notebook)
 
-        notebook.add(self._tab_ova,      text=" OVA File ")
-        notebook.add(self._tab_instance, text=" Instance ")
-        notebook.add(self._tab_user,     text=" User Account ")
-        notebook.add(self._tab_network,  text=" Network ")
-        notebook.add(self._tab_packages, text=" Packages & Commands ")
-        notebook.add(self._tab_preview,  text=" Preview ")
+        self._notebook.add(self._tab_ova,      text=" OVA File ")
+        self._notebook.add(self._tab_instance, text=" Instance ")
+        self._notebook.add(self._tab_user,     text=" User Account ")
+        self._notebook.add(self._tab_network,  text=" Network ")
+        self._notebook.add(self._tab_packages, text=" Packages & Commands ")
+        self._notebook.add(self._tab_preview,  text=" Preview ")
 
         # ---------- Bottom button bar ----------
         btn_frame = ttk.Frame(self)
@@ -190,8 +190,8 @@ class App(tk.Tk):
         nc = generate_network_config(cfg)
 
         self._tab_preview.set_content(ud, md, nc)
-        # Switch to preview tab
-        self.nametowidget(self.winfo_children()[0]).select(5)  # index 5 = Preview
+        # Switch to the Preview tab by widget reference (no magic index)
+        self._notebook.select(self._tab_preview)
 
     def _on_save_yaml(self) -> None:
         cfg = self._build_config()

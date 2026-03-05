@@ -64,7 +64,11 @@ def extract_ova(ova_path: str | os.PathLike, dest_dir: str | os.PathLike) -> Pat
                 raise ValueError(
                     f"Refusing to extract unsafe path: {member.name!r}"
                 )
-        tar.extractall(dest_dir, filter="data")  # noqa: S202 – validated above
+        # filter='data' (Python 3.11.4+) sanitises extracted file metadata;
+        # fall back gracefully on older interpreters.
+        import sys  # noqa: PLC0415
+        _extract_kwargs: dict = {"filter": "data"} if sys.version_info >= (3, 11, 4) else {}
+        tar.extractall(dest_dir, **_extract_kwargs)  # noqa: S202 – validated above
 
     return dest_dir
 
