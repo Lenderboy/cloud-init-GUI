@@ -1,0 +1,17 @@
+[project]
+name = "cloud-init-gui"
+version = "2.0.0"
+description = "GUI tool to prepare Ubuntu Server OVAs for cloud-init deployment (ESXi guestinfo + NoCloud ISO)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyYAML>=6.0",
+    "pycdlib>=1.14.0",
+]
+
+[project.scripts]
+cloud-init-gui = "app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
